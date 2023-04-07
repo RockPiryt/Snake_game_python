@@ -56,28 +56,47 @@ while game_is_on:
         #print('nom nom nom')
         food.refresh()#self method from food class
         snake.extend()
-        scoreboard.update()#self method from scoreboard class
+        scoreboard.increase_score()#self method from scoreboard class
 
     #End game 
     #Detect collision with wall - 
     #In while loop to stop the loop!!
     FIELD_SIZE = 257
     if snake.head.xcor() > FIELD_SIZE or snake.head.xcor() < -FIELD_SIZE or snake.head.ycor() > FIELD_SIZE or snake.head.ycor() < -FIELD_SIZE:
-        game_is_on = False#Stop loop condition
-        scoreboard.game_over()#Use method from scoreboard class to end game
+        scoreboard.reset_score()#for counting high_score game_is_on is still True
+        snake.reset_snake()
+        # #stop the game 
+        # game_is_on = False#Stop loop condition
+        # scoreboard.game_over()#Use method from scoreboard class to end game
         # print('GAME OVER')
 
 
     #Collision with tail
     #if head collides with tail any segment in the tail:
-        #trigger game_over
-    for segment in snake.segments:#loop for every segments
-        #to avoid  touching head case
-        if segment == snake.head:#without this game is end
-            pass
-        elif snake.head.distance(segment) < 10:
-            game_is_on = False
-            scoreboard.game_over()
+        #trigger start counting new_highscore 
+    for segment in snake.segments[1:]:#loop for every segments
+        #slice list to avoid  touching head case
+        if snake.head.distance(segment) < 10: #check distance segments from head
+            scoreboard.reset_score()
+            snake.reset_snake()
+            # #stop the game
+            # game_is_on = False
+            # scoreboard.game_over()
+
+
+    # #Collision with tail
+    # #if head collides with tail any segment in the tail:
+    #     #trigger game_over
+    # for segment in snake.segments:#loop for every segments
+    #     #to avoid  touching head case
+    #     if segment == snake.head:#without this game is end
+    #         pass
+    #     elif snake.head.distance(segment) < 10:
+    #         # #stop the game
+    #         # game_is_on = False
+    #         # scoreboard.game_over()
+
+
 
 #Exit game
 screen.exitonclick()
